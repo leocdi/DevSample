@@ -16,7 +16,19 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(m => {
+   
+        m.ModelMetadataDetailsProviders.Add(new MyModelMetadataProvider());
+
+        m.ModelBindingMessageProvider.SetValueMustBeANumberAccessor(
+        fieldName => string.Format("'{0}' bBBBBmusbt be a valid number.", fieldName));
+    // you may check the document of `DefaultModelBindingMessageProvider`
+    // and add more if needed
+   
+
+});
 
 var app = builder.Build();
 
