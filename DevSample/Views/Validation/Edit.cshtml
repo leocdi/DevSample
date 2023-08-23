@@ -1,0 +1,110 @@
+﻿@model DevSample.Models.ValidationDemoViewModel
+
+@{
+    ViewData["Title"] = "Validation";
+}
+
+<h1>View</h1>
+
+<h4>Validation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="View">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IntMaxRange" class="control-label"></label>
+                <input asp-for="IntMaxRange" class="form-control" />
+                <span asp-validation-for="IntMaxRange" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StringRequired" class="control-label"></label>
+                <input asp-for="StringRequired" class="form-control" />
+                <span asp-validation-for="StringRequired" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StringRequiredButCanBeEmpty" class="control-label"></label>
+                <input asp-for="StringRequiredButCanBeEmpty" class="form-control" />
+                <span asp-validation-for="StringRequiredButCanBeEmpty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StringCanBeEmpty" class="control-label"></label>
+                <input asp-for="StringCanBeEmpty" class="form-control" />
+                <span asp-validation-for="StringCanBeEmpty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NullableStringCanBeEmpty" class="control-label"></label>
+                <input asp-for="NullableStringCanBeEmpty" class="form-control" />
+                <span asp-validation-for="NullableStringCanBeEmpty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Decimal" class="control-label"></label>
+                <input asp-for="Decimal" class="form-control" />
+                <span asp-validation-for="Decimal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StringLengthStrange" class="control-label"></label>
+                <input asp-for="StringLengthStrange" class="form-control" />
+                <span asp-validation-for="StringLengthStrange" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date2022" class="control-label"></label>
+                <input asp-for="Date2022" class="form-control" />
+                <span asp-validation-for="Date2022" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateAndTime" class="control-label"></label>
+                <input asp-for="DateAndTime" class="form-control" />
+                <span asp-validation-for="DateAndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NUllableDateAndTime" class="control-label"></label>
+                <input asp-for="NUllableDateAndTime" class="form-control" />
+                <span asp-validation-for="NUllableDateAndTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        <pre><code class="language-csharp">public class ValidationDemoViewModel
+{
+    [Range(0, 500)]
+    public int IntMaxRange { get; set; }
+
+    [Required]
+    public string StringRequired { get; set; } = null!;
+
+    [Required(AllowEmptyStrings = true)]
+    public string StringRequiredButCanBeEmpty { get; set; } = null!;
+
+    public string StringCanBeEmpty { get; set; } = null!;
+
+    public string NullableStringCanBeEmpty { get; set; } = null!;
+
+    public decimal Decimal { get; set; }
+
+    [Required]
+    [StringLength(8)]
+    [MinLength(2)]
+    public string StringLengthStrange { get; set; } = null!;
+
+    [DataType(DataType.Date)]
+    public DateTime Date2022 { get; set; }
+
+    [DataType(DataType.DateTime)]
+    public DateTime DateAndTime { get; set; }
+
+    [DataType(DataType.DateTime)]
+    public DateTime? NUllableDateAndTime { get; set; }
+}</code></pre>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

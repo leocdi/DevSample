@@ -1,27 +1,37 @@
-﻿@{
+﻿@model AppInfoViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
+
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome/Hello</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-
 <div>
-    <pre>
-    <code class="language-csharp">
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseMigrationsEndPoint();
-}
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-    </code>
-    </pre>
+    <dl class="row">
+        <dt class="col-sm-3">Environment</dt>
+        <dd class="col-sm-9">@Model.Environment</dd>
+
+        <dt class="col-sm-3">Framework</dt>
+        <dd class="col-sm-9">@Model.FrameworkVersion</dd>
+
+        <dt class="col-sm-3">Culture</dt>
+        <dd class="col-sm-9">@Model.Culture</dd>
+
+        <dt class="col-sm-3">UI Culture</dt>
+        <dd class="col-sm-9">@Model.UiCulture</dd>
+    </dl>
 </div>
+
+
+<pre><code class="language-csharp">public class ApplicationDbContext : IdentityDbContext
+{
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+    {
+    }
+}</code></pre>

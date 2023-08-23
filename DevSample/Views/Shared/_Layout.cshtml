@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DevSample.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/highlight.js/styles/default.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/zzlib/highlight.js/styles/default.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/prismjs/prism.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -22,6 +23,9 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Validation" asp-action="Edit">Validation</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -46,9 +50,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/highlight.js/highlight.min.js"></script>
-    <script src="~/lib/highlight.js/languages/csharp.min.js"></script>
-    <script>hljs.highlightAll();</script>
+    <script src="~/ZZlib/highlight.js/highlight.min.js"></script>
+    <script src="~/ZZlib/highlight.js/languages/csharp.min.js"></script>
+    <script src="~/lib/prismjs/prism.js"></script>
+    <script>//hljs.highlightAll();</script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,6 +1,10 @@
+using DevSample;
 using DevSample.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +34,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 app.UseRouting();
 
