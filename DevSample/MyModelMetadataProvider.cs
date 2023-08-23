@@ -5,6 +5,7 @@ namespace DevSample
 {
     public class MyModelMetadataProvider : IValidationMetadataProvider
     {
+        //https://stackoverflow.com/questions/59284038/how-to-localize-standard-error-messages-of-validation-attributes-in-asp-net-core
         public void CreateValidationMetadata(ValidationMetadataProviderContext context)
         {
             if (context == null)
