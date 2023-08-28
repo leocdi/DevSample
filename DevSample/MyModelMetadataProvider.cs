@@ -31,8 +31,8 @@ namespace DevSample
                 {
                     continue;
                 }
-                fillErrorMessage<RequiredAttribute>(attribute,
-                    "zzzYou must fill in '{0}'.");
+                //fillErrorMessage<RequiredAttribute>(attribute,
+                //    "zzzYou must fill in '{0}'.");
                 fillErrorMessage<MinLengthAttribute>(attribute,
                     "zzMin length of '{0}' is {1}.");
                 fillErrorMessage<MaxLengthAttribute>(attribute,
