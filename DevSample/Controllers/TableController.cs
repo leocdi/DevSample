@@ -7,7 +7,7 @@ namespace DevSample.Controllers
     {
         public IActionResult Index()
         {
-            var vm = Employee.SeedDemoList();
+            var vm = Seeder.SeedDatatableSampleViewModel();
             return View(vm);
         }
     }

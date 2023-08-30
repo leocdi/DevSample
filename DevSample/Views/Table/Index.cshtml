@@ -1,7 +1,8 @@
-﻿@model IEnumerable<DevSample.Models.Employee>
+﻿@model DatatableSampleViewModel
 
 @{
     ViewData["Title"] = "Tables";
+    List<Employee> collection = Model.Employees;
 }
 
 <link href="~/lib/datatables/DataTables-1.13.6/css/dataTables.bootstrap5.css" rel="stylesheet">
@@ -24,37 +25,38 @@
 <h1>@ViewData["Title"]</h1>
 
 <hr />
+
 <div class="row">
     <div class="col-md-12">
-        <table class="table employee-datatable">
+        <table class="table table-striped employee-datatable">
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Name)
+                        @Html.DisplayNameFor(model => model.Employees.First().Name)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Id)
+                        @Html.DisplayNameFor(model => model.Employees.First().Id)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Position)
+                        @Html.DisplayNameFor(model => model.Employees.First().Position)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Office)
+                        @Html.DisplayNameFor(model => model.Employees.First().Office)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Age)
+                        @Html.DisplayNameFor(model => model.Employees.First().Age)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.StartDate)
+                        @Html.DisplayNameFor(model => model.Employees.First().StartDate)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Salary)
+                        @Html.DisplayNameFor(model => model.Employees.First().Salary)
                     </th>
 
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in collection)
                 {
                     <tr>
                         <td>
@@ -83,7 +85,6 @@
             </tbody>
         </table>
     </div>
-
 </div>
 <div class="row">
     <div class="col-md-12">
@@ -99,6 +100,51 @@
     }</code></pre>
     </div>
 </div>
+
+
+<div class="accordion" id="configAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFeatures">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Features
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingFeatures" data-bs-parent="#configAccordion">
+            <div class="row m-2">
+                @foreach (var item in Model.DatatableConfiguration.Features)
+                {
+                    <div class="col-md-4">
+
+                        @if (item.OptionDefault.StartsWith("true") || item.OptionDefault.StartsWith("false"))
+                        {
+                            <div class="form-check form-switch">
+
+                                <input type="checkbox" checked="@(item.OptionDefault == "true")" class="form-check-input" name="@item.Name" id="check-opt-@item.Name" value="@item.OptionDefault" />
+                                <input type="hidden" class="form-check-input" name="@item.Name" id="opt-@item.Name" value="@item.OptionDefault" />
+
+                                <label class="form-check-label" for="opt-@item.Name">@item.Name</label>
+
+                            </div>
+                        }
+                        else
+                        {
+                            <label class="form-label" for="opt-@item.Name">@item.Name</label>
+
+                            <input class="form-control form-control-sm" type="text" name="@item.Name" id="opt-@item.Name" value="@item.OptionDefault" />
+                        }
+                        <div id="help-@item.Name" class="form-text">@item.Desc @item.OptionHint</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+<div class="row m-0">
+        <button class="btn btn-primary mt-3" onclick="regenererDataTable()">Regenerer</button>
+</div>
+
 
 
 @section Scripts {
@@ -138,8 +184,63 @@
 
     <script type="text/javascript">
 
+        //génération table initiale
+        let myTable = new DataTable(".employee-datatable",
+            {
+                info: true,
+                ordering: true,
+                paging: true
+            });
 
-        let myTable = new DataTable(".employee-datatable");
+        //synchro checkbox avec hidden input
+        const checkboxs = document.querySelectorAll("input[id^='check-opt']");
+        checkboxs.forEach(function (checkbox) {
+            checkbox.addEventListener('change', (event) => {
+                let targetElement = document.getElementById(checkbox.id.replace('check-', ''));
+                if (event.currentTarget.checked) {
+                    targetElement.value = true;
+                } else {
+                    targetElement.value = false;
+                }
+            })
+        })
+
+
+
+        function regenererDataTable() {
+            myTable.destroy();
+            myTable = new DataTable(".employee-datatable", createConfig());
+        }
+
+        function test() {
+            myTable.destroy()
+            myTable = new DataTable(".employee-datatable",
+                {
+                    "autoWidth": true,
+                    "deferRender": false,
+                    "info": true,
+                    "lengthChange": true,
+                    "ordering": true,
+                    "paging": true,
+                    "processing": false,
+                    "scrollX": false,
+                    "scrollY": "200px",
+                    "searching": true,
+                    "serverSide": false,
+                    "stateSave": false
+                })
+        }
+
+        function createConfig() {
+            const inputs = document.querySelectorAll("input[id^='opt']");
+
+            let inputNames = {};
+            inputs.forEach(function (input) {
+                let value = input.value === "true" ? true : input.value === "false" ? false : input.value;
+                inputNames[input.name] = value;
+            });
+            return inputNames //return the array
+        }
     </script>
-    }
 }
+
