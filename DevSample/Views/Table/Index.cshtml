@@ -138,11 +138,25 @@
             </div>
         </div>
     </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingDom">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                Dom
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingDom" data-bs-parent="#configAccordion">
+            <div class="row m-2">
+                <textarea rows="3" id="dom-config" class="form-control form-control-sm">
+                   
+                </textarea>
+            </div>
+        </div>
+    </div>
 </div>
 
-    
+
 <div class="row m-0">
-        <button class="btn btn-primary mt-3" onclick="regenererDataTable()">Regenerer</button>
+    <button class="btn btn-primary mt-3" onclick="regenererDataTable()">Regenerer</button>
 </div>
 
 
@@ -183,13 +197,28 @@
     <script src="~/lib/datatables/StateRestore-1.3.0/js/stateRestore.bootstrap5.js"></script>
 
     <script type="text/javascript">
+        let defaultDom = "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+
+        document.getElementById('dom-config').value = defaultDom;
 
         //génération table initiale
         let myTable = new DataTable(".employee-datatable",
             {
                 info: true,
                 ordering: true,
-                paging: true
+                paging: true,
+                dom: defaultDom,
+                columnDefs:[
+                    {
+                        // The `data` parameter refers to the data for the cell (defined by the
+                        // `data` option, which defaults to the column being worked with, in
+                        // this case `data: 0`.
+                        render: ageRenderer,
+                        targets: 4
+                    }
+                ]
             });
 
         //synchro checkbox avec hidden input
@@ -206,40 +235,42 @@
         })
 
 
+        function ageRenderer(data, type, row) {
+            if (data > 50) {
+                return "<span class='text-danger'>" + data + "</span>"
+            } else if (data > 40) {
+                return "<span class='text-warning'>" + data + "</span>"
+            } else {
+                return data
+            }
+        }
 
         function regenererDataTable() {
             myTable.destroy();
             myTable = new DataTable(".employee-datatable", createConfig());
         }
 
-        function test() {
-            myTable.destroy()
-            myTable = new DataTable(".employee-datatable",
-                {
-                    "autoWidth": true,
-                    "deferRender": false,
-                    "info": true,
-                    "lengthChange": true,
-                    "ordering": true,
-                    "paging": true,
-                    "processing": false,
-                    "scrollX": false,
-                    "scrollY": "200px",
-                    "searching": true,
-                    "serverSide": false,
-                    "stateSave": false
-                })
-        }
+
 
         function createConfig() {
             const inputs = document.querySelectorAll("input[id^='opt']");
+            const domConf = document.getElementById('dom-config');
 
-            let inputNames = {};
+            let configuration = {};
+
+            //features
             inputs.forEach(function (input) {
                 let value = input.value === "true" ? true : input.value === "false" ? false : input.value;
-                inputNames[input.name] = value;
+                configuration[input.name] = value;
             });
-            return inputNames //return the array
+
+            //dom
+            if (domConf.value !== "") {
+                configuration.dom = domConf.value
+            }
+
+
+            return configuration //return the array
         }
     </script>
 }
