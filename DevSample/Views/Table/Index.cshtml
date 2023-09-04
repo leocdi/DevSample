@@ -22,6 +22,8 @@
 <link href="~/lib/datatables/Select-1.7.0/css/select.bootstrap5.css" rel="stylesheet">
 <link href="~/lib/datatables/StateRestore-1.3.0/css/stateRestore.bootstrap5.css" rel="stylesheet">
 
+<link href="https://code.highcharts.com/css/highcharts.css" rel="stylesheet">
+
 <h1>@ViewData["Title"]</h1>
 
 <hr />
@@ -147,7 +149,29 @@
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingDom" data-bs-parent="#configAccordion">
             <div class="row m-2">
                 <textarea rows="3" id="dom-config" class="form-control form-control-sm">
-                   
+
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingRender">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                ColumnDefs
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingRender" data-bs-parent="#configAccordion">
+            <div class="row m-2">
+                <textarea rows="10" id="columndefs-config" class="form-control form-control-sm">
+                [
+                    {
+                        // The `data` parameter refers to the data for the cell (defined by the
+                        // `data` option, which defaults to the column being worked with, in
+                        // this case `data: 0`.
+                        render: ageRenderer,
+                        targets: 4
+                    }
+                ]
                 </textarea>
             </div>
         </div>
@@ -159,7 +183,7 @@
     <button class="btn btn-primary mt-3" onclick="regenererDataTable()">Regenerer</button>
 </div>
 
-
+<div id="demo-output" style="margin-bottom: 1em;" class="chart-display"></div>
 
 @section Scripts {
     @{
@@ -196,6 +220,8 @@
     <script src="~/lib/datatables/StateRestore-1.3.0/js/dataTables.stateRestore.js"></script>
     <script src="~/lib/datatables/StateRestore-1.3.0/js/stateRestore.bootstrap5.js"></script>
 
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
     <script type="text/javascript">
         let defaultDom = "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
@@ -203,23 +229,29 @@
 
         document.getElementById('dom-config').value = defaultDom;
 
+
+        let defaultColumnDef = [
+            {
+                // The `data` parameter refers to the data for the cell (defined by the
+                // `data` option, which defaults to the column being worked with, in
+                // this case data: 0.
+                render: ageRenderer,
+                targets: 4
+            }
+        ]
+
+
         //génération table initiale
         let myTable = new DataTable(".employee-datatable",
             {
                 info: true,
                 ordering: true,
+                colReorder: true,
                 paging: true,
                 dom: defaultDom,
-                columnDefs:[
-                    {
-                        // The `data` parameter refers to the data for the cell (defined by the
-                        // `data` option, which defaults to the column being worked with, in
-                        // this case `data: 0`.
-                        render: ageRenderer,
-                        targets: 4
-                    }
-                ]
+                columnDefs: defaultColumnDef
             });
+
 
         //synchro checkbox avec hidden input
         const checkboxs = document.querySelectorAll("input[id^='check-opt']");
@@ -234,6 +266,54 @@
             })
         })
 
+        // Create chart
+        let chart = Highcharts.chart('demo-output', {
+            chart: {
+                type: 'pie',
+                styledMode: true
+            },
+            title: {
+                text: 'Staff Count Per Position'
+            },
+            series: [
+                {
+                    data: chartData(myTable)
+                }
+            ]
+        });
+
+        // On each draw, update the data in the chart
+        myTable.on('draw', function () {
+            chart.series[0].setData(chartData(myTable));
+        });
+
+        function chartData(table) {
+            var counts = {};
+
+            // Count the number of entries for each position
+            table
+                .column(1, { search: 'applied' })
+                .data()
+                .each(function (val) {
+                    if (counts[val]) {
+                        counts[val] += 1;
+                    }
+                    else {
+                        counts[val] = 1;
+                    }
+                });
+
+            // And map it to the format highcharts uses
+            return $.map(counts, function (val, key) {
+                return {
+                    name: key,
+                    y: val
+                };
+            });
+        }
+
+
+
 
         function ageRenderer(data, type, row) {
             if (data > 50) {
@@ -244,6 +324,8 @@
                 return data
             }
         }
+
+
 
         function regenererDataTable() {
             myTable.destroy();
