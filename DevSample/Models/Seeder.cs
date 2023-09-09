@@ -84,6 +84,7 @@
                 new (){ Name = "searching", Desc = "Feature control search (filtering) abilities.", OptionDefault = "true"},
                 new (){ Name = "serverSide", Desc = "Feature control DataTables' server-side processing mode.", OptionDefault = "false"},
                 new (){ Name = "stateSave", Desc = "State saving - restore table state on page reload.", OptionDefault = "false"},
+                new (){ Name = "fixedHeader", Desc = "Fix the table header to the top of a scrolling window.", OptionDefault = "true"},
             };
 
 

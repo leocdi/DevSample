@@ -223,9 +223,32 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <script type="text/javascript">
-        let defaultDom = "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+        let tableClass = ".employee-datatable"
+        let defaultDom = "<'row'<'col-md-12'Q>>" +
+            "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+
+        let searchBuilderLanguage = {
+            add: 'Ajouter',
+            condition: 'Condition',
+            clearAll: 'RAZ',
+            delete: 'Suppr.',
+            deleteTitle: 'Suppr. Titre',
+            data: 'Donnée',
+            left: 'Left',
+            leftTitle: 'Left Title',
+            logicAnd: '&&',
+            logicOr: '||',
+            right: 'Right',
+            rightTitle: 'Right Title',
+            title: {
+                0: 'Filtres',
+                _: 'Filtres (%d)'
+            },
+            value: 'Option',
+            valueJoiner: 'et'
+        }
 
         document.getElementById('dom-config').value = defaultDom;
 
@@ -242,14 +265,16 @@
 
 
         //génération table initiale
-        let myTable = new DataTable(".employee-datatable",
+        let myTable = new DataTable(tableClass,
             {
                 info: true,
                 ordering: true,
                 colReorder: true,
                 paging: true,
+                fixedHeader: true,
                 dom: defaultDom,
-                columnDefs: defaultColumnDef
+                columnDefs: defaultColumnDef,
+                language: { searchBuilder: searchBuilderLanguage }
             });
 
 
@@ -287,12 +312,25 @@
             chart.series[0].setData(chartData(myTable));
         });
 
+        //filter
+        $(tableClass + ' thead th').each(function (i) {
+                $(this).html('<input class="form-control form-control-sm" type="text" placeholder="' + this.innerText + '" data-index="' + i + '" />')
+        });
+
+        // Filter event handler
+        $(myTable.table().container()).on('keyup', 'thead input', function () {
+            myTable
+                .column($(this).data('index'))
+                .search(this.value)
+                .draw();
+        });
+
         function chartData(table) {
             var counts = {};
 
             // Count the number of entries for each position
             table
-                .column(1, { search: 'applied' })
+                .column(3, { search: 'applied' })
                 .data()
                 .each(function (val) {
                     if (counts[val]) {
@@ -329,7 +367,7 @@
 
         function regenererDataTable() {
             myTable.destroy();
-            myTable = new DataTable(".employee-datatable", createConfig());
+            myTable = new DataTable(tableClass, createConfig());
         }
 
 
