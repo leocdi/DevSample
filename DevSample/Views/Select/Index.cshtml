@@ -1,0 +1,97 @@
+﻿@model DevSample.Models.ValidationDemoViewModel
+
+@{
+    ViewData["Title"] = "MultiSelect";
+}
+
+
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        <label class="form-label" for="input-limit">Selections maximums</label>
+        <input class="form-control form-control-sm" type="number" id="input-limit" onchange="changeLimit()">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <!-- Build your select: -->
+        <select id="example-getting-started" multiple="multiple" data-max-option="2">
+            <option value="cheese">Cheese</option>
+            <option value="tomatoes">Tomatoes</option>
+            <option value="mozarella">Mozzarella</option>
+            <option value="mushrooms">Mushrooms</option>
+            <option value="pepperoni">Pepperoni</option>
+            <option value="onions">Onions</option>
+        </select>
+    </div>
+    <div class="col-md-6">
+        <pre><code class="language-js"></code></pre>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <!-- Include the plugin's CSS and JS: -->
+    <script type="text/javascript" src="~/lib/bootstrap-multiselect-1.1.2/dist/js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap-multiselect-1.1.2/dist/css/bootstrap-multiselect.css" type="text/css" />
+
+    <!-- Initialize the plugin: -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let selecteur = "#example-getting-started"
+
+            var limitInitiale = $('#example-getting-started').data("max-option");
+            document.getElementById("input-limit").value = limitInitiale;
+
+            let $myMultisel = $(selecteur).multiselect({
+                templates: {
+                    button: '<button type="button" class="btn btn-outline-secondary multiselect dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><span class="multiselect-selected-text"></span></button>',
+
+                },
+                onChange: function (option, checked, select) {
+                    let limit = $(selecteur).data('max-option');
+
+                    // Get selected options.
+                    var selectedOptions = $(selecteur + ' option:selected');
+
+                    console.log(selectedOptions.length + 'selections pour une limite de' + limit + selectedOptions.length >= limit)
+
+                    if (selectedOptions.length >= limit) {
+                        // Disable all other checkboxes.
+                        var nonSelectedOptions = $(selecteur + ' option').filter(function () {
+                            return !$(this).is(':selected');
+                        });
+
+                        nonSelectedOptions.each(function () {
+                            var input = $('input[value="' + $(this).val() + '"]');
+                            input.prop('disabled', true);
+                            input.closest('.multiselect-option').addClass('disabled');
+                        });
+                    }
+                    else {
+                        // Enable all checkboxes.
+                        $(selecteur + ' option').each(function () {
+                            var input = $('input[value="' + $(this).val() + '"]');
+                            input.prop('disabled', false);
+                            input.closest('.multiselect-option').removeClass('disabled');
+                        });
+                    }
+                },
+            });
+        });
+
+        function changeLimit() {
+
+            let lim = document.getElementById("input-limit").value
+
+            $('#example-getting-started').data("max-option", lim);
+
+        }
+    </script>
+}

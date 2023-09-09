@@ -236,18 +236,54 @@
             delete: 'Suppr.',
             deleteTitle: 'Suppr. Titre',
             data: 'Donnée',
-            left: 'Left',
+            left: 'Gauche',
             leftTitle: 'Left Title',
             logicAnd: '&&',
             logicOr: '||',
-            right: 'Right',
+            right: 'Droite',
             rightTitle: 'Right Title',
             title: {
                 0: 'Filtres',
                 _: 'Filtres (%d)'
             },
             value: 'Option',
-            valueJoiner: 'et'
+            valueJoiner: 'et',
+            conditions: {
+                string: {
+                    equals: 'Egal',
+                    not: 'Different',
+                    startsWith: 'Commence par',
+                    notStartsWith: 'Ne commence pas par',
+                    contains: 'Contiens',
+                    endsWith: 'Se termine par',
+                    notEndsWith: 'Ne se termine pas par',
+                    notContains: 'Ne contiens pas',
+                    empty: 'Vide',
+                    notEmpty: 'Non vide'
+                },
+                number: {
+                    between: 'Entre',
+                    empty: 'Vide',
+                    equals: '=',
+                    gt: '>',
+                    gte: '>=',
+                    lt: '<',
+                    lte: '<=',
+                    not: 'Différent',
+                    notBetween: 'N\'est pas entre',
+                    notEmpty: 'Non vide'
+                },
+                date: {
+                    after: 'Apres',
+                    before: 'Avant',
+                    between: 'Entre',
+                    empty: 'Vide',
+                    equals: 'Egal',
+                    not: 'Différent',
+                    notBetween: 'N\'est pas entre',
+                    notEmpty: 'Non vide'
+                }
+            }
         }
 
         document.getElementById('dom-config').value = defaultDom;
@@ -314,7 +350,7 @@
 
         //filter
         $(tableClass + ' thead th').each(function (i) {
-                $(this).html('<input class="form-control form-control-sm" type="text" placeholder="' + this.innerText + '" data-index="' + i + '" />')
+            $(this).html('<input class="form-control form-control-sm" type="text" placeholder="' + this.innerText + '" data-index="' + i + '" />')
         });
 
         // Filter event handler
