@@ -1,7 +1,7 @@
 ﻿@model DatatableSampleViewModel
 
 @{
-    ViewData["Title"] = "Tables";
+    ViewData["Title"] = "Tables Ajax";
     List<Employee> collection = Model.Employees;
 }
 
@@ -25,7 +25,7 @@
 <link href="https://code.highcharts.com/css/highcharts.css" rel="stylesheet">
 
 <h1>@ViewData["Title"]</h1>
-
+<h5>Chargement avec filtre custom sur les Noms (trie par nom de famille)</h5>
 <hr />
 
 <div class="row">
@@ -291,12 +291,49 @@
 
         let defaultColumnDef = [
             {
-                // The `data` parameter refers to the data for the cell (defined by the
-                // `data` option, which defaults to the column being worked with, in
-                // this case data: 0.
+                targets: 0,
+                data: 'name',
+                render: function (data, type, row, meta) {
+                    if (type === 'sort' || type === 'type') {
+                        var r = "";
+                        if (data) {
+                            r = data.split(/[, ]+/).pop();
+                            console.log('sort:', r, '->', data);
+                        }
+                        return r;
+                    }
+                    if (type === 'display') {
+                        return data;
+                    }
+                    return data
+                }
+            },
+            {
+                targets: 1,
+                data: 'id',
+            },
+            {
+                targets: 2,
+                data: 'position'
+            },
+            {
+                targets: 3,
+                data: 'office'
+            },
+            {
+                data: 'age',
                 render: ageRenderer,
                 targets: 4
-            }
+            },
+            {
+                targets: 5,
+                data: 'startDate'
+            },
+            {
+                targets: 6,
+                data: 'salary'
+            },
+
         ]
 
 
@@ -310,7 +347,21 @@
                 fixedHeader: true,
                 dom: defaultDom,
                 columnDefs: defaultColumnDef,
-                language: { searchBuilder: searchBuilderLanguage }
+                language: { searchBuilder: searchBuilderLanguage },
+                ajax: {
+                    url: "../Table/LoadAjax",
+                    dataSrc: ''
+                }
+                //,
+                //columns: [
+                //    { data: 'name' },
+                //    { data: 'id' },
+                //    { data: 'position' },
+                //    { data: 'office' },
+                //    { data: 'age' },
+                //    { data: 'startDate' },
+                //    { data: 'salary' }
+                //]
             });
 
 

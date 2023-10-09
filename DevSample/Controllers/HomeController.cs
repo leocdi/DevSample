@@ -1,4 +1,5 @@
 ﻿using DevSample.Models;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Globalization;
@@ -39,6 +40,23 @@ namespace DevSample.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Layout(string layoutname)
+        {
+
+            switch (layoutname)
+            {
+                case "local":
+                    TempData["Layout"] = "_Layout";
+                     
+                    break;
+                case "remote":
+                    TempData["Layout"] = "_LayoutCdn";
+                    break;
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

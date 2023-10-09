@@ -102,5 +102,14 @@
                 Employees = SeedDemoEmployeeList(),
             };
         }
+
+        public static DatatableSampleViewModel SeedEmptyDatatableSampleViewModel()
+        {
+            return new DatatableSampleViewModel()
+            {
+                DatatableConfiguration = SeedDatatableConfig(),
+                Employees = new(),
+            };
+        }
     }
 }
