@@ -224,8 +224,8 @@
 
     <script type="text/javascript">
         let tableClass = ".employee-datatable"
-        let defaultDom = "<'row'<'col-md-12'Q>>" +
-            "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+        let defaultDom = "<'row'<'col-md-12 row-filtres d-none'Q>>" +
+            "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6 search-bar'f>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
 
@@ -410,6 +410,14 @@
                 .column($(this).data('index'))
                 .search(this.value)
                 .draw();
+        });
+
+        
+
+        //affichage des filtres avances
+        $('#DataTables_Table_0_filter').append("<button class='btn btn-sm btn-info btn-advanced'>++</button>")
+        $('.btn-advanced').on("click", function () {
+            $('.row-filtres').toggleClass('d-none')
         });
 
         function chartData(table) {
