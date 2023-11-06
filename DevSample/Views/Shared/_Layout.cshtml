@@ -1,10 +1,12 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DevSample</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    @*    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    *@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DevSample.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/prismjs/prism.css" asp-append-version="true" />
@@ -50,6 +52,35 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item nav-link text-dark" asp-controller="Home" asp-action="Layout" asp-route-layoutname="local" asp->Local</a></li>
                                 <li><a class="dropdown-item nav-link text-dark" asp-controller="Home" asp-action="Layout" asp-route-layoutname="remote">Remote</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+                               <em class="fa-solid fa-toggle-on text-primary"></em>
+                                <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                                <li>
+                                    <button type="button" class="themebtn dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+                                        <em class="fa-solid fa-sun me-2"></em>
+                                        Light
+                                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="themebtn dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                                        <em class="fa-solid fa-moon me-2"></em>
+                                        Dark
+                                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="themebtn dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                        <em class="fa-solid fa-robot me-2"></em>
+                                        Auto
+                                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                                    </button>
+                                </li>
                             </ul>
                         </li>
                     </ul>
