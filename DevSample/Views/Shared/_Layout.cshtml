@@ -4,17 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DevSample</title>
+    <script src="~/js/themeToggler.js"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     @*    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     *@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DevSample.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/prismjs/prism.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/font-awesome/css/all.min.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DevSample</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -24,65 +26,101 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Validation" asp-action="Edit">Validation</a>
+                            <a class="nav-link" asp-area="" asp-controller="Validation" asp-action="Edit">Validation</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link  text-dark dropdown-toggle" href="#" id="navbarDropdownTable" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTable" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Tables
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownTable">
-                                <li><a class="dropdown-item nav-link text-dark" asp-controller="Table" asp-action="Index">Standard</a></li>
-                                <li><a class="dropdown-item nav-link text-dark" asp-controller="Table" asp-action="TableAvecAjax">Ajax</a></li>
+                                <li><a class="dropdown-item nav-link" asp-controller="Table" asp-action="Index">Standard</a></li>
+                                <li><a class="dropdown-item nav-link" asp-controller="Table" asp-action="TableAvecAjax">Ajax</a></li>
                             </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Select" asp-action="Index">Select</a>
+                            <a class="nav-link" asp-area="" asp-controller="Select" asp-action="Index">Select</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link  text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Layout
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item nav-link text-dark" asp-controller="Home" asp-action="Layout" asp-route-layoutname="local" asp->Local</a></li>
-                                <li><a class="dropdown-item nav-link text-dark" asp-controller="Home" asp-action="Layout" asp-route-layoutname="remote">Remote</a></li>
+                                <li><a class="dropdown-item nav-link" asp-controller="Home" asp-action="Layout" asp-route-layoutname="local" asp->Local</a></li>
+                                <li><a class="dropdown-item nav-link" asp-controller="Home" asp-action="Layout" asp-route-layoutname="remote">Remote</a></li>
                             </ul>
                         </li>
+
                         <li class="nav-item dropdown">
-                            <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
-                               <em class="fa-solid fa-toggle-on text-primary"></em>
+                            <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
+                                    id="bd-theme"
+                                    type="button"
+                                    aria-expanded="false"
+                                    data-bs-toggle="dropdown"
+                                    data-bs-display="static"
+                                    aria-label="Toggle theme (auto)">
+                                <i class="bi bi-circle-half my-1 theme-icon-active"></i>
                                 <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
                                 <li>
-                                    <button type="button" class="themebtn dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-                                        <em class="fa-solid fa-sun me-2"></em>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                                        <i class="bi bi-sun-fill me-2 opacity-50 theme-icon"></i>
                                         Light
-                                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                                        <i class="bi bi-check2 ms-auto d-none"></i>
                                     </button>
                                 </li>
                                 <li>
-                                    <button type="button" class="themebtn dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-                                        <em class="fa-solid fa-moon me-2"></em>
+                                    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                                        <i class="bi bi-moon-stars-fill me-2 opacity-50 theme-icon"></i>
                                         Dark
-                                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                                        <i class="bi ms-auto bi-check2 d-none"></i>
                                     </button>
                                 </li>
                                 <li>
-                                    <button type="button" class="themebtn dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-                                        <em class="fa-solid fa-robot me-2"></em>
+                                    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+                                        <i class="bi bi-circle-half me-2 opacity-50 theme-icon"></i>
                                         Auto
-                                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                                        <i class="bi bi-check2 ms-auto d-none"></i>
                                     </button>
                                 </li>
                             </ul>
                         </li>
+                        @*                        <li class="nav-item dropdown">
+                        <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+                        <em class="fa-solid fa-toggle-on text-primary"></em>
+                        <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                        <li>
+                        <button type="button" class="themebtn dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+                        <em class="fa-solid fa-sun me-2"></em>
+                        Light
+                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                        </button>
+                        </li>
+                        <li>
+                        <button type="button" class="themebtn dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                        <em class="fa-solid fa-moon me-2"></em>
+                        Dark
+                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                        </button>
+                        </li>
+                        <li>
+                        <button type="button" class="themebtn dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                        <em class="fa-solid fa-robot me-2"></em>
+                        Auto
+                        <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+                        </button>
+                        </li>
+                        </ul>
+                        </li>*@
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
