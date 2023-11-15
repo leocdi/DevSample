@@ -1,0 +1,72 @@
+﻿@model EfCoreIndexViewModel
+
+@{
+    ViewData["Title"] = "EfCore";
+}
+
+
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<h6>Query</h6>
+<p>@Model.QueryString</p>
+
+<h6>Results</h6>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Todos.First().Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Todos.First().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Todos.First().Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>model.Todos.First().CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Todos.First().UpdatedAt)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Todos)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+
+
+    <div>
+        @{
+            int i = 0;
+        }
+        @foreach (var item in Model.Dyna)
+        {
+            <p>@item</p>
+        }
+    </div>
+</div>
