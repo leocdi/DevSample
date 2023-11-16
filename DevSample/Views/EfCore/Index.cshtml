@@ -61,12 +61,26 @@
 
 
     <div>
-        @{
-            int i = 0;
-        }
-        @foreach (var item in Model.Dyna)
-        {
-            <p>@item</p>
-        }
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    @foreach (System.Data.DataColumn col in Model.DataTable.Columns)
+                    {
+                        <th>@col.Caption</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (System.Data.DataRow row in Model.DataTable.Rows)
+                {
+                    <tr>
+                        @foreach (var cell in row.ItemArray)
+                        {
+                            <td>@cell.ToString()</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

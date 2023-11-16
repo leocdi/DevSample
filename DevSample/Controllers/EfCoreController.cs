@@ -3,7 +3,10 @@ using DevSample.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Newtonsoft.Json;
+using System.Data;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DevSample.Controllers
 {
@@ -33,11 +36,8 @@ namespace DevSample.Controllers
             var jsonStringList = await queryDyn.ToListAsync();
             var json = jsonStringList.FirstOrDefault();
 
-            var totoDeserialize = System.Text.Json.JsonSerializer.Deserialize<List<Todo>>(json);
-            var jsonelementObj = System.Text.Json.JsonSerializer.Deserialize<List<JsonElement>>(json);
-            var Obj = System.Text.Json.JsonSerializer.Deserialize<List<object>>(json);
-            var dyn = System.Text.Json.JsonSerializer.Deserialize<List<dynamic>>(json);
 
+            //var table = JsonConvert.DeserializeObject<List<DataSet>>(json);
             var queryDynString = queryDyn.ToQueryString();
 
 
@@ -45,10 +45,11 @@ namespace DevSample.Controllers
             var special = await ToJsonAsync(specialqueryable,_context);
 
             var users = await ToJsonAsync(_context.Users, _context);
+            DataTable dt = (DataTable)JsonConvert.DeserializeObject(special, (typeof(DataTable)));
             EfCoreIndexViewModel vm = new();
             vm.QueryString = query.ToQueryString();
             vm.Todos = todos;
-            vm.Dyna = JsonSerializer.Deserialize<List<dynamic>>(special);
+            vm.DataTable = dt;
 
             return View(vm);
         }

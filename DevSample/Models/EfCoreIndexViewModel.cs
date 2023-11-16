@@ -1,5 +1,6 @@
 ﻿
 using DevSample.Data;
+using System.Data;
 
 namespace DevSample.Models
 {
@@ -8,6 +9,6 @@ namespace DevSample.Models
         public string? QueryString { get;set; }
         public List<Todo> Todos { get; set; } = new List<Todo>();
         public string? Result { get; set; }
-        public List<dynamic?> Dyna { get; set; }
+        public DataTable DataTable { get; set; }
     }
 }
