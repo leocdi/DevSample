@@ -25,27 +25,14 @@ namespace DevSample.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //query simple
             var query = _context.Todos;
             var todos = await query.ToListAsync();
 
-            var s = "select (select * from Todo FOR JSON AUTO) as value";
-            var s2 = "select * from Todo FOR JSON AUTO";
+            var dt = _context.DataTable("select *, 1 as uno, 2 as Tada from Todo");
 
-            var queryDyn = _context.Database.SqlQueryRaw<string?>(s2);
-            var jsonStringList = await queryDyn.ToListAsync();
-            var json = jsonStringList.FirstOrDefault();
-
-
-            //var table = JsonConvert.DeserializeObject<List<DataSet>>(json);
-            var queryDynString = queryDyn.ToQueryString();
-
-
-            var specialqueryable = _context.Database.SqlQueryRaw<string?>("select *, 1 as uno, 2 as Tada from Todo");
-            var special = await ToJsonAsync(specialqueryable,_context);
-
-            var users = await ToJsonAsync(_context.Users, _context);
-            DataTable dt = (DataTable)JsonConvert.DeserializeObject(special, (typeof(DataTable)));
+            //var specialqueryable = _context.Database.SqlQueryRaw<string?>("select *, 1 as uno, 2 as Tada from Todo");
+            //var special = await ToJsonAsync(specialqueryable,_context);
+            //DataTable dt = (DataTable)JsonConvert.DeserializeObject(special, (typeof(DataTable)));
             EfCoreIndexViewModel vm = new();
             vm.QueryString = query.ToQueryString();
             vm.Todos = todos;
