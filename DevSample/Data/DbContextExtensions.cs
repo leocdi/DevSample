@@ -16,8 +16,10 @@ namespace DevSample.Data
         {
             DataTable dataTable = new DataTable();
             DbConnection connection = context.Database.GetDbConnection();
-            DbProviderFactory dbFactory = DbProviderFactories.GetFactory(connection);
-            using (var cmd = dbFactory.CreateCommand())
+
+            DbProviderFactory? dbFactory = DbProviderFactories.GetFactory(connection);
+
+            using (var cmd = dbFactory!.CreateCommand()!)
             {
                 cmd.Connection = connection;
                 cmd.CommandType = CommandType.Text;
@@ -29,7 +31,7 @@ namespace DevSample.Data
                         cmd.Parameters.Add(item);
                     }
                 }
-                using (DbDataAdapter adapter = dbFactory.CreateDataAdapter())
+                using (DbDataAdapter adapter = dbFactory.CreateDataAdapter()!)
                 {
                     adapter.SelectCommand = cmd;
                     adapter.Fill(dataTable);

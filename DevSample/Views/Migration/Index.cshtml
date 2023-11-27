@@ -1,0 +1,20 @@
+﻿@model MigrationViewModel
+
+<h2>Migrations</h2>
+
+@foreach (var item in Model.Migrations)
+{
+    <p>@item</p>
+}
+
+<h2>Applyed Migrations</h2>
+
+@foreach (var item in Model.Migrations)
+{
+    <p>@item</p>
+}
+
+<h2>Script</h2>
+<pre>
+    @Html.Raw(Model.Script)
+</pre>
